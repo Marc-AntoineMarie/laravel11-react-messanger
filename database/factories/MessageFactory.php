@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Faker\Factory as FakerFactory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Message>
@@ -18,7 +19,7 @@ class MessageFactory extends Factory
     {
         $senderId = $this->faker->randomElement([0, 1]);
         if ($senderId == 0) {
-            $senderId = $this->faker->randomElement(\App\Models\User::where('sender_id', '!=', 1)->pluck('id')->toArray());
+            $senderId = $this->faker->randomElement(\App\Models\User::where('id', '!=', 1)->pluck('id')->toArray());
             $receiverId = 1;
         } else {
             $receiverId = $this->faker->randomElement(\App\Models\User::pluck('id')->toArray());
@@ -37,7 +38,7 @@ class MessageFactory extends Factory
             'sender_id' => $senderId,
             'receiver_id' => $receiverId,
             'group_id' => $groupId,
-            'message'=> $this->faker()->realText(200),
+            'message'=> $this->faker->realText(200),
             'created_at'=> $this->faker->dateTimeBetween('-1 week', 'now'),
         ];
     }
